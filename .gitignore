@@ -1,0 +1,14 @@
+node_modules
+bower_components
+dist
+dump
+build
+.tmp
+.sass-cache
+.directory
+.idea
+.DS_Store
+
+js/
+lib/
+libs/
