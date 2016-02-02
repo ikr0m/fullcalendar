@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
   <link href='./lib/fullcalendar.min.css' rel='stylesheet'/>
   <link href='./lib/fullcalendar.print.css' rel='stylesheet' media='print'/>
   <script src='./lib/jquery.min.js'></script>
@@ -11,7 +14,8 @@
 
     $(document).ready(function () {
       function fmt(date) {
-        return moment(date).format("yyyy-MM-dd HH:mm:ss");
+        return date.format("YYYY-MM-DD HH:mm");
+
       }
 
       var date = new Date();
@@ -41,16 +45,15 @@
         selectHelper: true,
         select: function (start, end, allDay) {
           var title = prompt('Event Title:');
-          //var url = prompt('Type Event url, if exits:');
           if (title) {
-            var start = fmt(start); // $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
-            var end = fmt(end); // $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
+            var start = fmt(start);
+            var end = fmt(end);
             $.ajax({
               url: 'add_events.php',
               data: 'title=' + title + '&start=' + start + '&end=' + end,
               type: "POST",
               success: function (json) {
-                alert('Added Successfully');
+                //alert('Added Successfully');
               }
             });
             calendar.fullCalendar('renderEvent',
@@ -68,19 +71,19 @@
 
         editable: true,
         eventDrop: function (event, delta) {
-          var start = fmt(event.start); // $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-          var end = fmt(event.end); // $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+          var start = fmt(event.start);
+          var end = fmt(event.end);
           $.ajax({
             url: 'update_events.php',
             data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
             type: "POST",
             success: function (json) {
-              alert("Updated Successfully");
+              //alert("Updated Successfully");
             }
           });
         },
         eventClick: function (event) {
-          var decision = confirm("Do you really want to do that?");
+          var decision = confirm("Do you want to remove event?");
           if (decision) {
             $.ajax({
               type: "POST",
@@ -88,7 +91,7 @@
               data: "&id=" + event.id,
               success: function (json) {
                 $('#calendar').fullCalendar('removeEvents', event.id);
-                alert("Updated Successfully");
+                //alert("Updated Successfully");
               }
             });
 
@@ -97,14 +100,14 @@
 
         },
         eventResize: function (event) {
-          var start = fmt(event.start); // $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-          var end = fmt(event.end); // $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
+          var start = fmt(event.start);
+          var end = fmt(event.end);
           $.ajax({
             url: 'update_events.php',
             data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
             type: "POST",
             success: function (json) {
-              alert("Updated Successfully");
+              //alert("Updated Successfully");
             }
           });
 
